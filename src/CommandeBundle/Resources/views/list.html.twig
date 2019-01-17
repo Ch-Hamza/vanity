@@ -1,0 +1,165 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}{{ parent() }} - List Orders {% endblock %}
+
+{% block body %}
+
+    {{ parent() }}
+
+    <div class="content-wrapper">
+        <!-- Page header -->
+        <div class="page-header">
+            <div class="page-header-content">
+                <div class="page-title">
+                    <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Home</span> - Orders</h4>
+                </div>
+            </div>
+
+            <div class="breadcrumb-line">
+                <ul class="breadcrumb">
+                    <li><a href="{{ path('index_admin_page') }}"><i class="icon-home2 position-left"></i> Home</a></li>
+                    <li><a href="{{ path('index_commandes_page') }}">Orders</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- /page header -->
+
+        <!-- Content area -->
+        <div class="content">
+
+            <!-- Table -->
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-10">
+                            <h5 class="panel-title">
+                                Orders Repository
+                                <div class="count" style="padding-top: 15px;">
+                                    Total Orders: {{ commande_list.getTotalItemCount }}
+                                </div>
+                            </h5>
+                            <div style="padding-top: 25px;">
+                                <form action="{{ path('index_commandes_page') }}" class="form-inline" method="get" style="padding-bottom: 10px; padding-top: 10px;font-size: 1.25em;">
+                                    <input type="text" class="form-control" name="filter">
+                                    <button type="submit" class="btn btn-default">Search</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-2"><a class="btn btn-success" href="{{ path('add_commande_page') }}">Add Order</a></div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>{{ knp_pagination_sortable(commande_list, 'ID', 'c.id') }}</th>
+                            <th>Client</th>
+                            <th>items</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for order in commande_list %}
+                            <tr>
+                                <td>{{ order.id }}</td>
+                                <td><a href="#client_modal{{ loop.index }}" data-toggle="modal"><i class="icon-user"></i></a></td>
+                                <td><a href="#items_modal{{ loop.index }}" data-toggle="modal"><i class="icon-eye8"></i></a></td>
+                                <td>
+                                    <ul class="icons-list mt-15">
+                                        <li><a href="{{ path('edit_commande_page', {'id': order.id}) }}" data-popup="tooltip" title="Edit"><i class="icon-pencil5"></i></a></li>
+                                        <li><a href="{{ path('archive_commande_page', {'id': order.id}) }}" data-popup="tooltip" title="Archive" onclick="return confirm('Are you sure you want to Archive this Order?')"><i class=" icon-archive"></i></a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+
+                            <div class="modal" tabindex="-1" role="dialog" id="client_modal{{ loop.index }}">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Client Info</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <hr>
+                                            <div>FirstName: {{ order.personalinfo.customerFirstName }}</div>
+                                            <hr>
+                                            <div>LastName: {{ order.personalinfo.customerLastName }}</div>
+                                            <hr>
+                                            <div>Phone: {{ order.personalinfo.customerPhone }}</div>
+                                            <hr>
+                                            <div>Email: {{ order.personalinfo.customerEmail }}</div>
+                                            <hr>
+                                            <div>City: {{ order.personalinfo.customerCity }}</div>
+                                            <hr>
+                                            <div>Address: {{ order.personalinfo.customerAddress }}</div>
+                                            <hr>
+                                            <div>Postal Code: {{ order.personalinfo.postalCode }}</div>
+                                            <hr>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal" tabindex="-1" role="dialog" id="items_modal{{ loop.index }}">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Items</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {% for item in order.items %}
+                                                <hr>
+                                                <div>
+                                                    <div>
+                                                        <img style="display: block;margin-left: auto;margin-right: auto;" class="cart-img" src="{{ vich_uploader_asset(item.product.images[0],'imageFile', 'ProductBundle\\Entity\\ProductImage') }}" alt="">
+                                                    </div>
+                                                    <div class="cart-img-right" style="margin-top: 25px;">
+                                                        <div>Name : {{ item.product.name }}</div>
+                                                        <div class="cart-ref">REF: {{ "%04d"|format(item.product.id) }}</div>
+                                                        <div class="cart-grey">Size: {{ item.size }}</div>
+                                                        <div class="cart-grey">Color: {{ item.color }}</div>
+                                                    </div>
+                                                    <div>Price: <span>{{ item.product.price | number_format(3,'.',',') }}</span> DT</div>
+                                                    <div>Quantity: {{ item.quantity }}</div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {# display navigation #}
+                    <div class="navigation text-center">
+                        {{ knp_pagination_render(commande_list) }}
+                    </div>
+                </div>
+
+            </div>
+            <!-- /table -->
+
+            {{ include('AdminBundle::footer.html.twig') }}
+
+        </div>
+        <!-- /content area -->
+    </div>
+
+    </div>
+    <!-- /page content -->
+
+    </div>
+    <!-- /page container -->
+{% endblock %}

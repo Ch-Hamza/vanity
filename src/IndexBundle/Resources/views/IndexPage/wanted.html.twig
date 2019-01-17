@@ -1,0 +1,27 @@
+<div class="wanted-container">
+    <div class="wanted-title">BEST SELLERS</div>
+
+    <div class="container">
+        <div class="row justify-content-around ">
+            {% for item in items %}
+                <div class="col-4 wanted-product">
+                    <div>
+                        <div class="hovereffect1">
+                            <img class="img-fluid" src="{{ vich_uploader_asset(item[0].product.images[0],'imageFile') }}" alt="">
+                            <a href="{{ path('product_page', {'id': item[0].product.id}) }}">
+                                <div class="overlay1">
+                                    <h2>{{ item[0].product.name }}</h2>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="wanted-name">{{ item[0].product.name }}</div>
+                    <div class="wanted-price">{{ item[0].product.price | number_format(3,',','.') }} DT</div>
+                    {# item[s] == is the number of products sold #}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="wanted-link"><a href="{{ path('shop_all_page') }}">Shop All Items</a></div>
+    </div>
+</div>

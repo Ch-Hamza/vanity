@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - List Products {% endblock %}
+
+{% block body %}
+
+    {{ parent() }}
+
+    <div class="content-wrapper">
+        <!-- Page header -->
+        <div class="page-header">
+            <div class="page-header-content">
+                <div class="page-title">
+                    <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Home</span> - Product</h4>
+                </div>
+            </div>
+
+            <div class="breadcrumb-line">
+                <ul class="breadcrumb">
+                    <li><a href="{{ path('index_admin_page') }}"><i class="icon-home2 position-left"></i> Home</a></li>
+                    <li><a href="{{ path('index_products_page') }}">Products</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- /page header -->
+
+        <!-- Content area -->
+        <div class="content">
+
+            <!-- Table -->
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-10">
+                            <h5 class="panel-title">
+                                Products Repository
+                                <div class="count" style="padding-top: 15px;">
+                                    Total Products: {{ product_list.getTotalItemCount }}
+                                </div>
+                            </h5>
+                            <div style="padding-top: 25px;">
+                                <form action="{{ path('index_products_page') }}" class="form-inline" method="get" style="padding-bottom: 10px; padding-top: 10px;font-size: 1.25em;">
+                                    <input type="text" class="form-control" name="filter">
+                                    <button type="submit" class="btn btn-default">Search</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-2"><a class="btn btn-success" href="{{ path('add_product_page') }}">Add Product</a></div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>{{ knp_pagination_sortable(product_list, 'ID', 'p.id') }}</th>
+                            <th{% if product_list.isSorted('p.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(product_list, 'Name', 'p.name') }}</th>
+                            <th>Visibility</th>
+                            <th>Description</th>
+                            <th{% if product_list.isSorted('p.price') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(product_list, 'Price', 'p.price') }}</th>
+                            <th>Pictures</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for product in product_list %}
+                            <tr>
+                                <td>{{ product.id }}</td>
+                                <td>{{ product.name }}</td>
+                                <td>
+                                    {% if product.enabled == true %}
+                                        <span class="label bg-success-400">Enabled</span>
+                                    {% else %}
+                                        <span class="label bg-danger-400">Disabled</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ product.description }}</td>
+                                <td>{{ product.price }}</td>
+                                <td><a href="#modal{{ loop.index }}" data-toggle="modal"><i class="icon-eye8"></i></a></td>
+                                <td>
+                                    <ul class="icons-list mt-15">
+                                        <li><a href="{{ path('enable_product_page', {'id': product.id}) }}" data-popup="tooltip" title="Toggle"><i class="icon-checkmark"></i></a></li>
+                                        <li><a href="{{ path('edit_product_page', {'id': product.id}) }}" data-popup="tooltip" title="Edit"><i class="icon-pencil5"></i></a></li>
+                                        <li><a href="{{ path('delete_product_page', {'id': product.id}) }}" data-popup="tooltip" title="Delete" onclick="return confirm('Are you sure you want to Delete this Category?')"><i class=" icon-trash"></i></a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+
+                            <div class="modal" tabindex="-1" role="dialog" id="modal{{ loop.index }}">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Pictures</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {% for image in product.images %}
+                                                <hr>
+                                                <div class="text-center text-bold">
+                                                    {% if image.nature == 'front' %}Front{% endif %}
+                                                    {% if image.nature == 'back' %}Back{% endif %}
+                                                </div>
+                                                <div class="thumbnail" style="width: 320px; height: 320px; margin: auto">
+                                                    <div class="thumb">
+                                                        <img src="{{ vich_uploader_asset(image,'imageFile') }}" alt="">
+                                                        <div class="caption-overflow">
+                                                            <span>
+                                                                <a href="{{ vich_uploader_asset(image,'imageFile') }}" data-popup="lightbox" rel="gallery" class="btn border-white text-white btn-flat btn-icon btn-rounded"><i class="icon-plus3"></i></a>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {# display navigation #}
+                    <div class="navigation text-center">
+                        {{ knp_pagination_render(product_list) }}
+                    </div>
+                </div>
+
+            </div>
+            <!-- /table -->
+
+            {{ include('AdminBundle::footer.html.twig') }}
+
+        </div>
+        <!-- /content area -->
+    </div>
+
+    </div>
+    <!-- /page content -->
+
+    </div>
+    <!-- /page container -->
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    {% include '@Index/IndexPage/navbar.html.twig' %}
+    {% include '@Index/IndexPage/head.html.twig' %}
+    {% include '@Index/IndexPage/wanted.html.twig' %}
+    {% include '@Index/IndexPage/parallax.html.twig' %}
+    {% include '@Index/IndexPage/highlight.html.twig' %}
+    {% include '@Index/IndexPage/footer.html.twig' %}
+{% endblock %}

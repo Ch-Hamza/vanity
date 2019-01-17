@@ -1,0 +1,72 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}{{ parent() }} - Add Product {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('assets_admin/js/edit_museum_images.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+    {{  parent() }}
+    <!-- Main content -->
+    <div class="content-wrapper">
+
+        <!-- Content area -->
+        <div class="content">
+
+            <!-- Horizontal form -->
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h5 class="panel-title">Add Product</h5>
+                </div>
+
+                <div class="panel-body">
+                    <div class="container-fluid">
+                        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+                        {{ form_row(form.name) }}
+                        {{ form_row(form.description) }}
+                        {{ form_row(form.price) }}
+                        {{ form_row(form.category) }}
+                        {{ form_row(form.enabled) }}
+
+                        <ul class="tags list-group" style="padding: 20px;margin: 20px" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+                            {{ form_row(form.images) }}
+                            {% for tag in form.images %}
+                                <li class="list-group-item">
+                                    {{ form_row(tag.imageFile) }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                {{ form_widget(form.save, {'attr': {'class': 'btn bg-teal-300'}}) }}
+                                <a class="btn btn-default" href="{{ path('index_products_page') }}">Back</a>
+                            </div>
+                        </div>
+
+                        {{ form_errors(form) }}
+                        {{ form_rest(form) }}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+            <!-- /horizotal form -->
+
+            {% include 'AdminBundle::footer.html.twig' %}
+
+        </div>
+        <!-- /content area -->
+
+    </div>
+    <!-- /main content -->
+    </div>
+    <!-- /page content -->
+
+    </div>
+    <!-- /page container -->
+
+{% endblock %}

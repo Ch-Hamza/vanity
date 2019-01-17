@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include '@Index/IndexPage/navbar.html.twig' %}
+    <div class="container">
+        <div class="head-title shop-all-title">EQUALS</div>
+
+        <div class="container cart-container">
+            <div class="row cart-row">
+                <div class="col-3 cart-continue">
+                    <a href="{{ path('shop_all_page') }}"><i class="icon-arrow-left12"></i>Continuer vos achats</a>
+                </div>
+            </div>
+
+            {{ form_start(commande_form) }}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="cart-first-col">Mon Panier ({{ cartLogo }})</th>
+                        <th class="text-right">Prix</th>
+                        <th class="text-right">Quantité</th>
+                        <th class="text-right">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {#
+                    {% for item in items1 %}
+                        <tr>
+                            <td>
+                                <div class="row align-items-center">
+                                    <div>
+                                        <img class="cart-img" src="{{ vich_uploader_asset(item.product.images[0],'imageFile', 'ProductBundle\\Entity\\ProductImage') }}" alt="">
+                                    </div>
+                                    <div class="cart-img-right">
+                                        <div>{{ item.product.name }}</div>
+                                        <div class="cart-ref">REF: {{ "%04d"|format(item.product.id) }}</div>
+                                        <div class="cart-grey">Size: {{ item.size }}</div>
+                                        <div class="cart-grey">Color: {{ item.color }}</div>
+                                        <div class="cart-delete"><a href="{{ path('delete_cart_item', {'id': item.id}) }}">Delete</a></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-right local-price"><span>{{ item.product.price | number_format(3,'.',',') }}</span> DT</td>
+                            <td class="text-right cart-quantity-edit">{{ form_widget(commande_form.items[loop.index0].quantity) }}</td>
+                            <td class="text-right local-total"><span></span> DT</td>
+                        </tr>
+                    {% endfor %}
+                    #}
+                {% for item in items1 %}
+                    <tr>
+                        <td>
+                            <div class="row align-items-center">
+                                <div>
+                                    <img class="cart-img" style="object-fit: cover;" src="{{ asset('assets/images/Whole-Earth-Peanut-Butter-Smooth-Organic-113x143.png') }}" alt="">
+                                </div>
+                                <div class="cart-img-right">
+                                    <div>Nom Produit</div>
+                                    <div class="cart-ref">REF: 4213</div>
+                                    <div class="cart-grey">Poids: {{ item.size }}</div>
+                                    {#<div class="cart-grey">Color: {{ item.color }}</div>#}
+                                    <div class="cart-delete"><a href="{# path('delete_cart_item', {'id': item.id}) #}">Delete</a></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right local-price"><span>{{ item.product.price | number_format(3,'.',',') }}</span> DT</td>
+                        <td class="text-right cart-quantity-edit">{{ form_widget(commande_form.items[loop.index0].quantity) }}</td>
+                        <td class="text-right local-total"><span></span> DT</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <hr>
+            <div class="row">
+                <div class="offset-6 col-6">
+                    <div class="row total-text">
+                        <div class="col-6">Subtotal</div>
+                        <div class="col-6 text-right subtotal"><span></span> DT</div>
+                    </div>
+                    <div class="row total-text">
+                        <div class="col-6">Livraison</div>
+                        <div class="col-6 text-right total-delivery"><span>{{ 5 | number_format(3,'.',',') }}</span> DT</div>
+                    </div>
+                    <hr>
+                    <div class="row total-text1">
+                        <div class="col-6">Total</div>
+                        <div class="col-6 text-right final-total"><span></span> DT</div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="btn checkout-btn1">{{ form_widget(commande_form.save, { 'label': 'Checkout' }) }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="margin-top: 30px">
+                <div class="alert-danger">{{ form_errors(commande_form) }}</div>
+            </div>
+            {{ form_rest(commande_form) }}
+            {{ form_end(commande_form) }}
+        </div>
+    </div>
+
+    {% include '@Index/IndexPage/footer.html.twig' %}
+
+    <script>
+        $( document ).ready(function() {
+
+            $('.local-total').each(function () {
+                var quantity = parseFloat($(this).prev('td.cart-quantity-edit').find('input').val());
+                var price = parseFloat($(this).siblings('td.local-price').find('span').text());
+                var value = quantity*price;
+                $(this).find('span').text(parseFloat(value).toFixed(3));
+            });
+
+            var subtotal = parseFloat(0).toFixed(3);
+            $('.local-total').each(function () {
+                var value = parseFloat($(this).find('span').text());
+                subtotal = parseFloat(subtotal) + value;
+            });
+            $('.subtotal').find('span').text(parseFloat(subtotal).toFixed(3));
+
+            var delivery = parseFloat($('.total-delivery').find('span').text()).toFixed(3);
+            var final_total = parseFloat(parseFloat(subtotal)+parseFloat(delivery)).toFixed(3);
+            $('.final-total').find('span').text(final_total);
+
+            $('.cart-quantity-edit').on('change', function (e) {
+                currentLocalPrice = $(e.target).parent().siblings('.local-price').find('span').text();
+                var newTotal = ((parseFloat(currentLocalPrice).toFixed(3))*(parseFloat($(e.target).val())).toFixed(3)).toFixed(3);
+                $(e.target).parent().siblings('.local-total').find('span').text(newTotal);
+
+                var subtotal = parseFloat(0).toFixed(3);
+                $('.local-total').each(function () {
+                    var value = parseFloat($(this).find('span').text());
+                    subtotal = parseFloat(subtotal) + value;
+                });
+                $('.subtotal').find('span').text(parseFloat(subtotal).toFixed(3));
+
+                var delivery = parseFloat($('.total-delivery').find('span').text()).toFixed(3);
+                var final_total = parseFloat(parseFloat(subtotal)+parseFloat(delivery)).toFixed(3);
+                $('.final-total').find('span').text(final_total);
+            })
+        });
+    </script>
+{% endblock %}

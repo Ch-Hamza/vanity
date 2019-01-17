@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include '@Index/IndexPage/navbar.html.twig' %}
+    <div class="container">
+        <div class="head-title shop-all-title">EQUALS</div>
+        <div class="checkout-title text-center">Nous vous remercions d'avoir passé votre commande chez FermeX</div>
+        <div class="shop-all-text">Un Pas de Plus</div>
+        <div class="row justify-content-center">
+            <div class="col-6 checkout-form">
+                {{ form_start(personalinfo_form) }}
+                <div class="row">
+                    <div class="col-6">
+                        <div>{{ form_widget(personalinfo_form.customerFirstName, { 'attr': {'placeholder': 'First Name', 'class': 'contact-input' } }) }}</div>
+                        <div class="alert-danger">{{ form_errors(personalinfo_form.customerFirstName) }}</div>
+                    </div>
+                    <div class="col-6">
+                        <div>{{ form_widget(personalinfo_form.customerLastName, { 'attr': {'placeholder': 'Last Name', 'class': 'contact-input'} }) }}</div>
+                        <div class="alert-danger">{{ form_errors(personalinfo_form.customerLastName) }}</div>
+                    </div>
+                </div>
+
+                <div>{{ form_widget(personalinfo_form.customerEmail, { 'attr': {'placeholder': 'Email', 'class': 'contact-input'} }) }}</div>
+                <div class="alert-danger">{{ form_errors(personalinfo_form.customerEmail) }}</div>
+
+                <div>{{ form_widget(personalinfo_form.customerPhone, { 'attr': {'placeholder': 'Phone', 'class': 'contact-input'} }) }}</div>
+                <div class="alert-danger">{{ form_errors(personalinfo_form.customerPhone) }}</div>
+
+                <div>
+                    {{ form_widget(personalinfo_form.customerAddress, { 'attr': {'placeholder': 'Address', 'class': 'contact-input'} }) }}
+                    <div class="alert-danger">{{ form_errors(personalinfo_form.customerAddress) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_widget(personalinfo_form.customerCity, { 'attr': {'placeholder': 'City', 'class': 'contact-input'} }) }}
+                        <div class="alert-danger">{{ form_errors(personalinfo_form.customerCity) }}</div>
+                    </div>
+
+                    <div class="col-6">
+                        {{ form_widget(personalinfo_form.postalCode, { 'attr': {'placeholder': 'Zip Code', 'class': 'contact-input'} }) }}
+                        <div class="alert-danger">{{ form_errors(personalinfo_form.postalCode) }}</div>
+                    </div>
+                </div>
+
+                <div class="alert-danger">{{ form_errors(personalinfo_form) }}</div>
+
+                <div style="text-align: center;margin-top: 10px;">{{ form_widget(personalinfo_form.save, { 'label': 'SEND' }) }}</div>
+                {{ form_rest(personalinfo_form) }}
+                {{ form_end(personalinfo_form) }}
+            </div>
+        </div>
+        <div class="container">
+
+        </div>
+    </div>
+
+    {% include '@Index/IndexPage/footer.html.twig' %}
+{% endblock %}

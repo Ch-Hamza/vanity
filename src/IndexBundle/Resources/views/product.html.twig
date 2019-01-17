@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include '@Index/IndexPage/navbar.html.twig' %}
+    <div class="container">
+        <div class="head-title shop-all-title">EQUALS</div>
+
+        <div class="container">
+
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div class="product-image">
+                        <img class="img-fluid" src="{{ vich_uploader_asset(product.images[0],'imageFile') }}" alt="">
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="product-title">{{ product.name }}</div>
+                    <div class="product-ref">REF: {{ "%04d"|format(product.id) }}</div>
+                    <div>{{ product.price | number_format(3,',','.') }} DT</div>
+
+                    {{ form_start(cart_form, {'attr': {'class': 'form-horizontal'}}) }}
+                    <div class="cart-seg">
+                        <div class="cart-label">{{ form_label(cart_form.size) }}</div>
+                        <div class="cart-input">{{ form_widget(cart_form.size) }}</div>
+                        <div class="alert-danger">{{ form_errors(cart_form.size) }}</div>
+                    </div>
+
+                    <div class="color-seg">
+                        <div class="cart-label">{{ form_label(cart_form.Color) }}<span id="currentColor"></span></div>
+                        {{ form_widget(cart_form.Color) }}
+
+                        <label class="color-container">
+                            <span class="checkmark-container">
+                                <span class="checkmark bg-white" data-color="White"></span>
+                            </span>
+                        </label>
+
+                        <label class="color-container">
+                            <span class="checkmark-container">
+                                <span class="checkmark bg-dark" data-color="Black"></span>
+                            </span>
+                        </label>
+
+                        <div class="alert-danger">{{ form_errors(cart_form.Color) }}</div>
+                    </div>
+                    <div>
+                        <div class="cart-label">{{ form_label(cart_form.gender) }}</div>
+                        <div class="cart-input">{{ form_widget(cart_form.gender) }}</div>
+                        <div class="alert-danger">{{ form_errors(cart_form.gender) }}</div>
+                    </div>
+                    <div>
+                        <div class="cart-label">{{ form_label(cart_form.quantity) }}</div>
+                        <div class="cart-input">{{ form_widget(cart_form.quantity) }}</div>
+                        <div class="alert-danger">{{ form_errors(cart_form.quantity) }}</div>
+                    </div>
+                    <div>
+                        <div class="cart-btn">{{ form_widget(cart_form.save, { 'label': 'ADD TO CART' }) }}</div>
+                        {{ form_rest(cart_form) }}
+                        {{ form_end(cart_form) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-6 product-description">
+                    <p>
+                        {{ product.description }}
+                    </p>
+                </div>
+
+                <div class="col-5">
+
+                    <hr>
+                    <div id="accordion">
+                        <div class="card product-accordion">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <a class="product-accordion-link" data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="false" aria-controls="collapseOne">
+                                        <div class="product-accordion-icon"><i class="more-less icon-plus3"></i></div>
+                                        Return and Refund Policy
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    <p>
+                                        I’m a Return and Refund policy. I’m a great place to let your customers know what to do in case they are
+                                        dissatisfied with their purchase. Having a straightforward refund or exchange policy is a great way to
+                                        build trust and reassure your customers that they can buy with confidence.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="card product-accordion">
+                            <div class="card-header" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <a class="product-accordion-link" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">
+                                        <div class="product-accordion-icon"><i class="more-less icon-plus3"></i></div>
+                                        Shipping Info
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                <div class="card-body">
+                                    I'm a shipping policy. I'm a great place to add more information about your shipping methods,
+                                    packaging and cost. Providing straightforward information about your shipping policy is a great
+                                    way to build trust and reassure your customers that they can buy from you with confidence.
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include '@Index/IndexPage/footer.html.twig' %}
+
+    <script>
+        $( document ).ready(function() {
+
+            $('.cart-btn').find('button').on('click', function () {
+                $('.cart-logo').addClass('shake');
+            });
+
+            function toggleIcon(e) {
+                $(e.target)
+                    .prev('.card-header')
+                    .find(".more-less")
+                    .toggleClass(' icon-plus3  icon-minus3');
+            }
+            $('#accordion').on('hidden.bs.collapse', toggleIcon);
+            $('#accordion').on('shown.bs.collapse', toggleIcon);
+
+            $('.checkmark').on('click',function () {
+                $('#currentColor').html(': ' + $(this).attr('data-color'));
+                clickedColor = $(this).attr('data-color');
+
+                $('label').each(function (index) {
+                    checkedColor = $(this).text().replace(/\s/g, '');
+                    if(clickedColor === checkedColor) {
+                        realInput = $(this).find('input');
+                        realInput.prop("checked", true);
+                    }
+                });
+
+                $(this).parent().addClass('addBorder');
+                $(this).parent().parent().siblings( ".color-container" ).find('.checkmark-container').removeClass('addBorder');
+            })
+        });
+    </script>
+{% endblock %}

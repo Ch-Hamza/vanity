@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="highlight-title">#EQUALS</div>
+    <div class="row justify-content-center">
+        {% for highlight in highlights %}
+            <div class="highlight">
+                <div class="hovereffect">
+                    <img class="img-fluid" src="{{ vich_uploader_asset(highlight.images[0],'imageFile') }}" alt="">
+                    <div class="overlay">
+                        <h2>{{ highlight.name }}</h2>
+                        {#view product id link#}
+                        <a class="info" href="{{ path('product_page', {'id': highlight.id}) }}"><i class="fa fa-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

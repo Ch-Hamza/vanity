@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include '@Index/IndexPage/navbar.html.twig' %}
+    <div class="container">
+        <div class="head-title shop-all-title">EQUALS</div>
+        <div class="shop-all-text">Shop / All</div>
+
+        <div class="container">
+            <div class="row justify-content-around ">
+                {% for item in products %}
+                    <div class="col-4 wanted-product">
+                        <div>
+                            <div class="hovereffect1">
+                                <img class="img-fluid" src="{{ vich_uploader_asset(item.images[0],'imageFile') }}" alt="">
+                                <a href="{{ path('product_page', {'id': item.id}) }}">
+                                    <div class="overlay1">
+                                        <h2>{{ item.name }}</h2>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="wanted-name">{{ item.name }}</div>
+                        <div class="wanted-price">{{ item.price }} DT</div>
+                        {# item[s] == is the number of products sold #}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% include '@Index/IndexPage/footer.html.twig' %}
+{% endblock %}

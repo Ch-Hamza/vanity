@@ -1,0 +1,35 @@
+<div class="footer footer-container">
+    <div class="row justify-content-center">
+        <div class="col-3 footer-row">
+            <div class="footer-row-content"><a href="{{ path('about_page') }}">About</a></div>
+            <div class="footer-row-content"><a href="{{ path('contact_page') }}">Contact</a></div>
+        </div>
+        <div class="col-3 footer-row">
+            <div class="footer-row-content"><a href="{{ path('policy_page') }}">Store Policy</a></div>
+            <div class="footer-row-content"><a href="">Payments Methods</a></div>
+            <div class="footer-row-content"><a href="">FAQ</a></div>
+        </div>
+        <div class="col-4">
+            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+            <div class="mailing-text">Join our mailing list and get 10% off the purchase</div>
+            <div class="mailing-input">{{ form_widget(form.email, { 'attr': {'placeholder': 'Email Address'} }) }}</div>
+            <div>{{ form_errors(form.email) }}</div>
+            <div class="mailing-btn">{{ form_widget(form.save, { 'label': 'Subscribe Now' }) }}</div>
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-3 social-media-container">
+            <a href=""><i class="fa fa-facebook-official social-media"></i></a>
+            <a href=""><i class="fa fa-instagram social-media"></i></a>
+        </div>
+        <div class="col-3"></div>
+        <div class="col-4"></div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-4 copyright-container">&copy; 2023 by EQUALS.</div>
+        <div class="col-3"></div>
+        <div class="col-3"></div>
+    </div>
+</div>

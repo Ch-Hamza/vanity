@@ -1,0 +1,225 @@
+<?php
+
+namespace CommandeBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Commande
+ *
+ * @ORM\Table(name="commande")
+ * @ORM\Entity(repositoryClass="ProductBundle\Repository\CommandeRepository")
+ */
+class Commande
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CommandeBundle\Entity\CommandeItem", mappedBy="commande")
+     */
+    private $items;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="customer_name", type="string", length=255)
+     */
+    private $customerName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="customer_phone", type="string", length=255)
+     */
+    private $customerPhone;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="customer_email", type="string", length=255)
+     */
+    private $customerEmail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="customer_city", type="string", length=255)
+     */
+    private $customerCity;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="customer_address", type="string", length=255)
+     */
+    private $customerAddress;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="customer_postac_code", type="string", length=255)
+     */
+    private $postalCode;
+
+    public function __construct()
+    {
+        $this->items = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set customerName
+     *
+     * @param string $customerName
+     *
+     * @return Commande
+     */
+    public function setCustomerName($customerName)
+    {
+        $this->customerName = $customerName;
+
+        return $this;
+    }
+
+    /**
+     * Get customerName
+     *
+     * @return string
+     */
+    public function getCustomerName()
+    {
+        return $this->customerName;
+    }
+
+    /**
+     * Set customerPhone
+     *
+     * @param string $customerPhone
+     *
+     * @return Commande
+     */
+    public function setCustomerPhone($customerPhone)
+    {
+        $this->customerPhone = $customerPhone;
+
+        return $this;
+    }
+
+    /**
+     * Get customerPhone
+     *
+     * @return string
+     */
+    public function getCustomerPhone()
+    {
+        return $this->customerPhone;
+    }
+
+    /**
+     * Set customerEmail
+     *
+     * @param string $customerEmail
+     *
+     * @return Commande
+     */
+    public function setCustomerEmail($customerEmail)
+    {
+        $this->customerEmail = $customerEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get customerEmail
+     *
+     * @return string
+     */
+    public function getCustomerEmail()
+    {
+        return $this->customerEmail;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomerCity()
+    {
+        return $this->customerCity;
+    }
+
+    /**
+     * @param string $customerCity
+     */
+    public function setCustomerCity($customerCity)
+    {
+        $this->customerCity = $customerCity;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomerAddress()
+    {
+        return $this->customerAddress;
+    }
+
+    /**
+     * @param string $customerAddress
+     */
+    public function setCustomerAddress($customerAddress)
+    {
+        $this->customerAddress = $customerAddress;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostalCode()
+    {
+        return $this->postalCode;
+    }
+
+    /**
+     * @param string $postalCode
+     */
+    public function setPostalCode($postalCode)
+    {
+        $this->postalCode = $postalCode;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
+     * @param mixed $items
+     */
+    public function setItems($items)
+    {
+        $this->items = $items;
+    }
+
+
+
+}
+

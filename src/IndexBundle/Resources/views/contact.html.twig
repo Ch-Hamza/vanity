@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include '@Index/IndexPage/navbar.html.twig' %}
+    <div class="container">
+        <div class="head-title shop-all-title">EQUALS</div>
+        <div class="contact-text">CONTACT US</div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-3">
+                    <div class="contact-title">Customer Service</div>
+                    <div class="contact-paragraph">
+                        Phone: 123-456-7890
+                        Email: info@my-domain.com
+                        <br><br>
+                        Mon - Fri, 9am-5pm
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="contact-title">Contact Us</div>
+                    <div>
+                        For all Order Support please include your order number and date that your order was placed
+                    </div>
+                </div>
+                <div class="col-5 contact-form">
+                    {{ form_start(contact_form) }}
+                    <div class="row">
+                        <div class="col-6">
+                            <div>{{ form_widget(contact_form.name, { 'attr': {'placeholder': 'Name', 'class': 'contact-input' } }) }}</div>
+                        </div>
+                        <div class="col-6">
+                            <div>{{ form_widget(contact_form.email, { 'attr': {'placeholder': 'Email', 'class': 'contact-input'} }) }}</div>
+                        </div>
+                    </div>
+
+                    <div>{{ form_widget(contact_form.subject, { 'attr': {'placeholder': 'Subject', 'class': 'contact-input'} }) }}</div>
+                    <div>{{ form_widget(contact_form.message, { 'attr': {'placeholder': 'Message', 'class': 'contact-input'} }) }}</div>
+                    <div>{{ form_errors(contact_form) }}</div>
+
+                    <div style="text-align: center;">{{ form_widget(contact_form.save, { 'label': 'SEND' }) }}</div>
+                    {{ form_rest(contact_form) }}
+                    {{ form_end(contact_form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include '@Index/IndexPage/footer.html.twig' %}
+{% endblock %}
